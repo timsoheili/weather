@@ -1,0 +1,127 @@
+<html>
+<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.4/jquery-ui.min.js" type="text/javascript"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"
+	integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+	crossorigin=""/>
+	<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"
+	integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="
+	crossorigin=""></script>
+
+	<style>
+		@media (min-width: 320px) {
+			@-ms-viewport{ width: device-width; }
+
+			#row1 .divCount1 {
+				background: url(./images/BannerLogo.png) #004261;
+				background-size: contain;
+				background-position: 35px bottom;
+				background-repeat: no-repeat;
+				border-radius: 25px 25px 0 0;
+				border: 2px solid #fff;
+				border-bottom: none;
+				padding: 3em;
+				text-align: right;
+			}
+
+			#row1 .divCount2 {
+				background: #004261;
+				border-radius: 0 0 25px 25px;
+				border: 2px solid #fff;
+				border-top: none;
+				padding: 2em;
+				width: 100%;
+			}
+
+			#mapid { height: 480px; }
+
+			input#zipSubmit {
+				border: 2px solid #fff;
+				border-radius: 25px;
+				background: transparent;
+				color: #fff;
+				padding: .5em 2.75em;
+			}
+		}
+		@media (min-width: 576px) {
+
+		}
+		@media (min-width: 768px) {
+
+		}
+		@media (min-width: 992px) {
+			.divCount1 {
+				/*padding: 11% 50%;*/
+			}
+
+			input#zip {
+				/*width: 55px;*/
+			}
+		}
+		@media (min-width: 1200px) {
+
+		}
+		@media (min-width: 1600px) {
+
+		}
+	</style>
+</head>
+<body>
+	<div class="container" id="preview">
+		<div class="row" id="row1">
+			<div class="div divCount1 col-sm-12 col-md-12 col-lg-12">
+				<input id="zip" name="zip" type="text" pattern="[0-9]*" placeholder="Zip Code">
+				<input type="submit" name="" id="zipSubmit">
+			</div>
+			<div class="div divCount2 col-sm-12 col-md-12 col-lg-12">
+				<!-- WeatherAPI Key: ea4fda34a22eb03135827fb9f5beb4a6 -->
+				<!-- http://maps.openweathermap.org/maps/2.0/weather/TA2/{z}/{x}/{y}?&opacity=0.9&fill_bound=true&appid=ea4fda34a22eb03135827fb9f5beb4a6 -->
+				<div id="mapid"></div>
+			</div>
+		</div>
+	</div>
+</body>
+<script>
+	function buildMap(lat,lon)  {
+		document.getElementById('mapid').innerHTML = "<div id='map' style='width: 100%; height: 100%;'></div>";
+		var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+		osmAttribution = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors,' +
+		' <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>';
+		var osmLayer = new L.TileLayer(osmUrl, {maxZoom: 12, attribution: osmAttribution});
+		var map = new L.Map('map');
+		map.setView(new L.LatLng(lat,lon), 9 );
+		map.addLayer(osmLayer);
+		var weatherLayer = new OsmJs.Weather.LeafletLayer({lang: 'en'});
+		map.addLayer(weatherLayer);
+
+		L.tileLayer('http://maps.openweathermap.org/maps/2.0/weather/TA2/{z}/{x}/{y}?opacity=0.9&fill_bound=true&appid=ea4fda34a22eb03135827fb9f5beb4a6&fill_bound=true&opacity=0.6&palette=-65:821692;-55:821692;-45:821692;-40:821692;-30:8257db;-20:208cec;-10:20c4e8;0:23dddd;10:c2ff28;20:fff028;25:ffc228;30:fc8014', {
+			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+			maxZoom: 18,
+			id: 'mapbox.streets',
+			accessToken: 'ea4fda34a22eb03135827fb9f5beb4a6'
+		}).addTo('#mymap');
+	}
+
+	$('#zipSubmit').click(function() {
+		var zipValue = $('#zip').val();
+		var mymap = '';
+
+		if(zipValue.length < 5) return false;
+
+		$.get("https://api.openweathermap.org/data/2.5/weather?zip="+zipValue+",us&appid=ea4fda34a22eb03135827fb9f5beb4a6", function(data, status){
+			var lat = JSON.stringify(data.coord.lat);
+			var lon = JSON.stringify(data.coord.lon);
+			var city = JSON.stringify(data.name);
+
+			console.log('Longitude: '+lon+'\nLatitude: '+lat+'\nCity: '+city);
+
+			buildMap(lat,lon);
+		});
+	});
+</script>
+</html>
