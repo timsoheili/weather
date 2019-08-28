@@ -19,8 +19,8 @@
 
 			#row1 .divCount1 {
 				background: url(./images/BannerLogo.png) #004261;
-				background-size: contain;
-				background-position: 35px bottom;
+				background-size: 33%;
+    			background-position: 20px;
 				background-repeat: no-repeat;
 				border-radius: 25px 25px 0 0;
 				border: 2px solid #fff;
@@ -40,6 +40,10 @@
 
 			#mapid { height: 480px; }
 
+			input#zip {
+			    width: 50%;
+			}
+
 			input#zipSubmit {
 				border: 2px solid #fff;
 				border-radius: 25px;
@@ -55,12 +59,19 @@
 
 		}
 		@media (min-width: 992px) {
+			#row1 .divCount1 {
+				background: url(./images/BannerLogo.png) #004261;
+				background-size: contain;
+				background-position: 35px bottom;
+				background-repeat: no-repeat;
+			}
+
 			.divCount1 {
 				/*padding: 11% 50%;*/
 			}
 
 			input#zip {
-				/*width: 55px;*/
+			    width: 25%;
 			}
 		}
 		@media (min-width: 1200px) {
