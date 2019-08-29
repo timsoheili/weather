@@ -91,7 +91,6 @@
 			</div>
 			<div class="div divCount2 col-sm-12 col-md-12 col-lg-12">
 				<!-- WeatherAPI Key: ea4fda34a22eb03135827fb9f5beb4a6 -->
-				<!-- http://maps.openweathermap.org/maps/2.0/weather/TA2/{z}/{x}/{y}?&opacity=0.9&fill_bound=true&appid=ea4fda34a22eb03135827fb9f5beb4a6 -->
 				<div id="mapid"></div>
 			</div>
 		</div>
@@ -109,13 +108,6 @@
 		map.addLayer(osmLayer);
 		var weatherLayer = new OsmJs.Weather.LeafletLayer({lang: 'en'});
 		map.addLayer(weatherLayer);
-
-		L.tileLayer('http://maps.openweathermap.org/maps/2.0/weather/TA2/{z}/{x}/{y}?opacity=0.9&fill_bound=true&appid=ea4fda34a22eb03135827fb9f5beb4a6&fill_bound=true&opacity=0.6&palette=-65:821692;-55:821692;-45:821692;-40:821692;-30:8257db;-20:208cec;-10:20c4e8;0:23dddd;10:c2ff28;20:fff028;25:ffc228;30:fc8014', {
-			attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-			maxZoom: 18,
-			id: 'mapbox.streets',
-			accessToken: 'ea4fda34a22eb03135827fb9f5beb4a6'
-		}).addTo('#mymap');
 	}
 
 	$('#zipSubmit').click(function() {
